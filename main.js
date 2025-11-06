@@ -26,27 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Catálogo (Código 2)
   const CATALOGO = {
     1: "Adelante",
-    2: "Atrás",
+    2: "Atrás", // <- con acento
     3: "Detener",
     4: "Vuelta adelante derecha",
     5: "Vuelta adelante izquierda",
-    6: "Vuelta atrás derecha",
-    7: "Vuelta atrás izquierda",
+    6: "Vuelta atrás derecha", // <- con acento
+    7: "Vuelta atrás izquierda", // <- con acento
     8: "Giro 90° derecha",
     9: "Giro 90° izquierda",
     10: "Giro 360° derecha",
     11: "Giro 360° izquierda",
   };
 
-  // Aliases de comandos (Código 1 original)
+  // Aliases de comandos CORREGIDOS
   const COMANDO_ALIASES = {
     'adelante': 'adelante', 'avanza': 'adelante',
-    'atras': 'atras', 'retrocede': 'atras',
+    'atras': 'atrás', 'retrocede': 'atrás', // <- mapear a "atrás" (con acento)
     'detener': 'detener', 'detente': 'detener', 'para': 'detener',
     'vuelta derecha': 'vuelta adelante derecha', 'adelante derecha': 'vuelta adelante derecha', 'vuelta adelante derecha': 'vuelta adelante derecha',
     'vuelta izquierda': 'vuelta adelante izquierda', 'adelante izquierda': 'vuelta adelante izquierda', 'vuelta adelante izquierda': 'vuelta adelante izquierda',
-    'vuelta atras derecha': 'vuelta atras derecha', 'atras derecha': 'vuelta atras derecha',
-    'vuelta atras izquierda': 'vuelta atras izquierda', 'atras izquierda': 'vuelta atras izquierda',
+    'vuelta atras derecha': 'vuelta atrás derecha', 'atras derecha': 'vuelta atrás derecha', // <- mapear a "vuelta atrás derecha"
+    'vuelta atras izquierda': 'vuelta atrás izquierda', 'atras izquierda': 'vuelta atrás izquierda', // <- mapear a "vuelta atrás izquierda"
     'giro 90 derecha': 'giro 90° derecha', 'gira 90 derecha': 'giro 90° derecha',
     'giro 90 izquierda': 'giro 90° izquierda', 'gira 90 izquierda': 'giro 90° izquierda',
     'giro 360 derecha': 'giro 360° derecha', 'giro completo derecha': 'giro 360° derecha',
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .trim();
   };
 
-  // Procesar comando de voz
+  // Procesar comando de voz - FUNCIÓN MEJORADA
   const processCommand = (transcript) => {
     if (!transcript || !transcript.startsWith(KEYWORD)) {
       commandTextP.textContent = `La orden debe iniciar con "${KEYWORD}"`;
@@ -162,24 +162,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const potentialCommand = transcript.substring(KEYWORD.length);
     const normalized = normalizeText(potentialCommand).toLowerCase();
 
+    console.log("Comando normalizado:", normalized); // Para debug
+
+    // Primero buscar en aliases
     const found = COMANDO_ALIASES[normalized];
     if (found) {
       commandTextP.textContent = found.toUpperCase();
       console.log(`Comando detectado (alias): ${found}`);
 
+      // Buscar el ID en CATALOGO
       const idMov = Object.keys(CATALOGO).find(
-        k => CATALOGO[k].toLowerCase() === found.toLowerCase()
+        k => normalizeText(CATALOGO[k]).toLowerCase() === normalizeText(found).toLowerCase()
       );
+      
       if (idMov) {
         enviarMovimiento(Number(idMov));
       } else {
+        console.error(`Comando no encontrado en catálogo: ${found}`);
         showToast("Comando reconocido, pero no está mapeado a un movimiento.");
       }
 
     } else {
+      // Si no está en aliases, buscar directamente en CATALOGO
       const matchKey = Object.keys(CATALOGO).find(k =>
         normalizeText(CATALOGO[k]).toLowerCase() === normalized
       );
+      
       if (matchKey) {
         const movimiento = CATALOGO[matchKey];
         commandTextP.textContent = movimiento.toUpperCase();
@@ -187,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         commandTextP.textContent = "Comando no reconocido";
         showToast("Comando no reconocido");
+        console.log("Comandos disponibles:", Object.values(CATALOGO).map(v => normalizeText(v).toLowerCase()));
       }
     }
   };
