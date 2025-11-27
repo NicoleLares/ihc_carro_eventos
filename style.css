@@ -1,0 +1,268 @@
+:root {
+  --bg-gradient-start: #0b0c10;
+  --bg-gradient-end: #151625;
+  --card-bg: rgba(24, 39, 26, 0.6);
+  --primary-accent: #00FF00; /* Verde COSMO */
+  --record-active: #ff3b5f;
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0b0;
+  --border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* === Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 18px;
+}
+
+/* === Tarjeta principal === */
+.main-card {
+  width: 100%;
+  max-width: 980px;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* === Cabeceraa === */
+.header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+.keyword-highlight {
+  color: var(--primary-accent);
+  font-weight: 600;
+}
+
+/* === Micrófono === */
+.mic-container { margin: 12px 0; }
+.mic-btn {
+  background: var(--primary-accent);
+  border: none;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 26px rgba(0,200,150,0.25);
+  transition: all 0.28s ease;
+}
+.mic-btn svg { width: 36px; height: 36px; fill: #0b0c10; transition: transform 0.25s ease; }
+.mic-btn:hover { transform: scale(1.06); box-shadow: 0 8px 32px rgba(0,200,150,0.35); }
+.mic-btn.recording {
+  background-color: var(--record-active) !important;
+  animation: pulse-record 1.6s infinite;
+  box-shadow: 0 6px 28px rgba(255,59,95,0.28);
+}
+@keyframes pulse-record {
+  0% { box-shadow: 0 0 0 0 rgba(255,59,95,0.45); }
+  70% { box-shadow: 0 0 0 18px rgba(255,59,95,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,59,95,0); }
+}
+
+/* === Estado === */
+.status-container { 
+  font-size: 0.98rem; 
+  color: var(--text-secondary);
+}
+.status-txt { 
+  font-weight: 600; 
+  color: var(--primary-accent); 
+}
+
+/* === Transcripción y comando === */
+.output { 
+  width: 100%; 
+  margin-top: 8px; 
+  text-align: left; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
+.output-item {
+  background-color: rgba(0,0,0,0.22);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.output-item h3 {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--primary-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+#recognizedText { 
+  color: var(--text-primary); 
+  font-size: 1rem; 
+  min-height: 28px; 
+}
+.command { 
+  font-weight: 700; 
+  color: var(--primary-accent); 
+  font-size: 1.4rem; 
+  min-height: 36px; 
+  text-align: center; 
+}
+.command-output { 
+  background-color: rgba(0,200,150,0.06); 
+  border: 1px solid rgba(0,200,150,0.15); 
+}
+
+/* === Divider === */
+.divider { 
+  border: 1px solid rgba(255,255,255,0.04); 
+  margin: 6px 0 12px; 
+}
+
+/* === Panel de control IHC === */
+.ihc-panel .panel-title { 
+  color: var(--primary-accent); 
+  margin-bottom: 10px; 
+  font-weight: 600; 
+}
+
+/* === Tarjetas pequeñas === */
+.small-card {
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: transform 0.25s ease;
+}
+.small-card:hover {
+  transform: translateY(-3px);
+}
+
+/* === Botones (ajustados para caber en recuadros) === */
+.btn-control {
+  width: 80px;            /* antes 120px */
+  height: 70px;           /* antes 88px */
+  font-weight: 600;
+  font-size: 0.62rem;     /* ligeramente más pequeño para mantener proporción */
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  color: var(--text-primary);
+  border: 2px solid var(--primary-accent);
+  background: transparent;
+  box-shadow: 0 3px 10px rgba(0,200,150,0.1);
+}
+.btn-control:hover {
+  background: var(--primary-accent);
+  color: #0b0c10;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0,200,150,0.25);
+}
+
+/* Botón detener (también reducido para coherencia) */
+.stop-btn {
+  width: 84px;            /* antes 110px */
+  height: 70px;           /* antes 86px */
+  display: grid;
+  place-items: center;
+  background: #111218;
+  border: 2px solid #ff3b5f; /* antes 3px */
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 10px rgba(255,59,95,0.18);
+}
+.stop-btn:hover { 
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 16px rgba(255,59,95,0.3); 
+}
+.stop-square { 
+  width: 26px;            /* antes 36px */
+  height: 26px;
+  background: #ff3b5f; 
+  border-radius: 6px; 
+}
+
+
+/* === Estatus IHC === */
+.status-ihc { 
+  color: var(--primary-accent); 
+  font-weight: 700; 
+}
+#timestamp { 
+  color: var(--text-secondary); 
+  font-size: 0.9rem; 
+}
+
+/* === Botón Monitoreo === */
+#btn-monitoreo {
+  background-color: var(--primary-accent);
+  border: none;
+  color: #0b0c10;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 22px;
+  box-shadow: 0 4px 16px rgba(0,200,150,0.25);
+  transition: all 0.25s ease;
+}
+#btn-monitoreo:hover {
+  background-color: #00b084;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,200,150,0.35);
+}
+
+/* === Toast === */
+.toast { 
+  border-radius: 12px; 
+  background: rgba(33,37,41,0.95); 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6); 
+}
+
+/* === Modal Monitoreo === */
+.modal-content { 
+  border-radius: 12px; 
+  background: #0f1721; 
+  color: var(--text-primary); 
+  border: none; 
+}
+.modal-header { 
+  background: linear-gradient(135deg, var(--primary-accent), #4de0ba); 
+  color: #fff; 
+  border-radius: 12px 12px 0 0; 
+}
+
+/* === Footer === */
+footer {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* === Responsivo === */
+@media (max-width: 768px) {
+  .btn-control { width: 100px; height: 78px; }
+  .stop-btn { width: 92px; height: 74px; }
+  .main-card { padding: 18px; }
+}
