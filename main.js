@@ -1,6 +1,6 @@
 // Unificado: lógica Whisper (Código1) + lógica IHC (Código2)
 // Mantener API_BASE tal como pediste:
-const API_BASE = "https://98.94.143.63:5500/api"; // igual que en el Código 2
+const API_BASE = "http://98.94.143.63:5500/api"; // igual que en el Código 2
 
 document.addEventListener('DOMContentLoaded', () => {
   // === DOM ELEMENTS (voz) ===
